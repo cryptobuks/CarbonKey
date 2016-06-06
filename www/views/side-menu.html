@@ -2,42 +2,29 @@
 
   <ion-side-menu-content>
     <ion-nav-bar>
-      <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
-        </button>
-      </ion-nav-buttons>
       <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-settings" ng-click="toggleRight()">
+        <button class="button button-icon button-clear ion-navicon" ng-click="toggleRight()">
         </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+
+  <ion-side-menu side="right">
     <header class="bar bar-header bar-stable">
-      <h1 class="title">Carbon Key</h1>
+      <h1 class="title">Menu</h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
         <ion-item nav-clear menu-close href="#/app/home">
-          Carbon Key
+          <div class="backup ion-home">Home</div>
         </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-side-menu>
-
-  <ion-side-menu side="right">
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">Carbon Key</h1>
-    </header>
-    <ion-content class="has-header">
-      <ion-list>
         <ion-item nav-clear menu-close href="#/app/backup">
-          Backup this Key
+          <div class="backup ion-archive">Backup this Key</div>
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/restore">
-          Restore from Backup
+            <div class="restore ion-loop">Restore from Backup</div>
         </ion-item>
       </ion-list>
     </ion-content>

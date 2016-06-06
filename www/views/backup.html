@@ -1,7 +1,11 @@
-<ion-view title="Carbon Key - Backup">
-  <ion-content style="text-align: center; margin-top: 2em;">
-    <p>To backup your key write down the passpharse below.</p>
+<ion-view title="Backup">
+  <ion-content class="backup">
+  <div id="backup" class="screen-container">
+  <div class="screen-container-top">
+  <i class="ion-loop"></i>
+    <h2>To backup your key write down the passpharse below.</h2></div>
+    <div class="screen-container-btm">
     <h3>{{mnemonic}}</h3>
-    <p>Important : If you don't backup your keys you will lose access to any services that use the key.</p>
+    <p class="important ion-information-circled">Important : If you don't backup your keys you will lose access to any services that use the key.</p></div></div>
   </ion-content>
 </ion-view>
