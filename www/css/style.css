@@ -1,15 +1,54 @@
 /* Empty. Add your own CSS if you like */
 /***** General Styles *****/
+
+
+@font-face {
+    font-family: 'ubuntu_monobold';
+    src: url('../fonts/ubuntu/nubuntumono-b-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ubuntu_monoregular';
+    src: url('../fonts/ubuntu/nubuntumono-r-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Webfont: Lato-Bold */@font-face {
+    font-family: 'LatoWebBold';
+    src: url('../fonts/lato/Lato-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: Lato-Regular */@font-face {
+    font-family: 'LatoWeb';
+    src: url('../fonts/lato/Lato-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: Lato-Semibold */@font-face {
+    font-family: 'LatoWebSemibold';
+    src: url('../fonts/lato/Lato-Semibold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
 .bar {
 	border-bottom:1px solid #1f1f1f;
 	background-color:#1f1f1f;
 	color:#fff;
 	padding:10px;
 	height:50px;
-	font-family:"Lato";
+	font-family: 'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.3em;
-	font-weight:700;
 }
 
 .bar .title {
@@ -24,18 +63,16 @@
 	background-color:#1f1f1f;
 	background-image:none;
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.3em;
-	font-weight:700;
 }
 
 .bar.bar-stable .title {
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.3em;
-	font-weight:700;
 }
 
 .has-header {
@@ -100,7 +137,7 @@
 	border:none;
 	background-color:#353535;
 	color:#fff;
-	font-family:"Ubuntu";
+	font-family: 'ubuntu_monobold';
 	font-size:16px;
 }
 
@@ -151,10 +188,9 @@
 
 #home h2 {
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.25em;
-	font-weight:700;
 	font-size:17px;
 	line-height:1.4;
 	padding:70px 20px 0;
@@ -182,9 +218,8 @@
 	padding:4px 26px;
 	background-color:#16b5dd;
 	text-transform:uppercase;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	letter-spacing:.04em;
-	font-weight:700;
 	width:210px;
 }
 
@@ -211,16 +246,15 @@
 
 .splash .screen-content h1 {
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.5em;
-	font-weight:700;
 	font-size:22px;
 }
 
 .splash .screen-content h2 {
 	color:#ffd307;
-	font-family:"Ubuntu";
+	font-family: 'ubuntu_monobold';
 	font-size:34px;
 	letter-spacing:-.06em;
 }
@@ -243,10 +277,9 @@
 
 .restore .screen-container h2 {
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.25em;
-	font-weight:700;
 	font-size:17px;
 	line-height:1.4;
 }
@@ -256,9 +289,8 @@
 	background-color:#16b5dd;
 	color:#fff;
 	text-transform:uppercase;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	letter-spacing:.04em;
-	font-weight:700;
 	max-width:200px;
 	min-height:47px;
 	border-radius:4px;
@@ -342,7 +374,7 @@
 
 .backup .screen-container-btm h3 {
 	color:#f9c31b;
-	font-family:"Ubuntu";
+	font-family: 'ubuntu_monobold';
 	font-size:26px;
 	font-weight:600;
 	padding:15px 0;
@@ -353,7 +385,7 @@
 	position:relative;
 	padding-left:30px;
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWeb';
 	font-size:17px;
 	text-align:left;
 }
@@ -377,10 +409,9 @@ background-size: 100%;
 
 .backup .screen-container h2 {
 	color:#fff;
-	font-family:"Lato";
+	font-family:'LatoWebBold';
 	text-transform:uppercase;
 	letter-spacing:.25em;
-	font-weight:700;
 	font-size:16px;
 	line-height:1.4;
 }
