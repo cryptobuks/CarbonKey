@@ -37,6 +37,15 @@ angular.module('carbonkey').config(function($stateProvider, $urlRouterProvider) 
         }
       }
     })
+    .state('app.privacy', {
+      url: "/privacy",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/privacy.html",
+          controller : "RestoreController"
+        }
+      }
+    })
 
   $urlRouterProvider.otherwise('/app/home')
 
