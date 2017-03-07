@@ -18,6 +18,7 @@
     "cordova-plugin-device",
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
+    "cordova.plugins.diagnostic",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     {
