@@ -174,6 +174,23 @@ angular.module('carbonkey.controllers').controller("CarbonKeyController",
    */  
   $scope.scanBarcode = function() {
     
+    // Ask for permission to use the camera
+    if(window.cordova) {
+      var permissions = window.cordova.plugins.permissions;
+      permissions.hasPermission(permissions.CAMERA, function( status ){
+        if ( ! status.hasPermission ) {
+          
+          permissions.requestPermission(permissions.CAMERA, function( status )
+            {
+              
+            }, 
+            function()
+            {  }
+          );
+        }
+      });
+    }
+    
     // If we are not on a device with a QR code reader then get the text
     // from the user. Useful for debug purposes.
     if(! isDevice) {

@@ -1,0 +1,12 @@
+{
+  "name": "CarbonKey",
+  "app_id": "89f1fabc",
+  "integrations": {},
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ]
+}
