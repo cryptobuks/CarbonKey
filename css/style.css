@@ -1,0 +1,417 @@
+/* Empty. Add your own CSS if you like */
+/***** General Styles *****/
+
+
+@font-face {
+    font-family: 'ubuntu_monobold';
+    src: url('../fonts/ubuntu/nubuntumono-b-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ubuntu_monoregular';
+    src: url('../fonts/ubuntu/nubuntumono-r-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Webfont: Lato-Bold */@font-face {
+    font-family: 'LatoWebBold';
+    src: url('../fonts/lato/Lato-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: Lato-Regular */@font-face {
+    font-family: 'LatoWeb';
+    src: url('../fonts/lato/Lato-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: Lato-Semibold */@font-face {
+    font-family: 'LatoWebSemibold';
+    src: url('../fonts/lato/Lato-Semibold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+.bar {
+	border-bottom:1px solid #1f1f1f;
+	background-color:#1f1f1f;
+	color:#fff;
+	padding:10px;
+	height:50px;
+	font-family: 'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.3em;
+}
+
+.bar .title {
+	height:50px;
+	font-size:16px;
+	font-weight:700;
+	line-height:48px;
+}
+
+.bar.bar-stable {
+	border-color:#1f1f1f;
+	background-color:#1f1f1f;
+	background-image:none;
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.3em;
+}
+
+.bar.bar-stable .title {
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.3em;
+}
+
+.has-header {
+	top:50px;
+}
+
+[nav-bar-transition="ios"] [nav-bar="active"] .bar,[nav-bar-transition="ios"] [nav-bar="entering"] .bar {
+	background:#1f1f1f;
+}
+
+.screen-container {
+	height:100%;
+}
+
+/******** Menu *******/
+.button-clear.button-clear {
+	color:#fff;
+}
+
+.button-icon.button.active,.button-icon.button.activated {
+	opacity:1;
+	color:#fff;
+}
+
+.menu-open .bar .button.button-clear:before,.menu-open .bar button.button-clear:before {
+	content:"\f12a";
+	font-size:24px;
+}
+
+.menu {
+	background-color:#353535;
+}
+
+.menu .item {
+	border-color:#444;
+	background-color:#353535;
+	color:#fff;
+	position:relative;
+	z-index:2;
+	display:block;
+	margin:-1px;
+	padding:0;
+	border-width:1px;
+	border-style:solid;
+	font-size:16px;
+	font-weight:500;
+}
+
+.menu .item .item-content.activated {
+	border-color:#555;
+	background-color:#353535;
+}
+
+.menu .has-header {
+	top:49px;
+}
+
+.menu .item-complex .item-content,.menu .item-radio .item-content {
+	position:relative;
+	z-index:2;
+	padding:16px 16px 16px 56px;
+	border:none;
+	background-color:#353535;
+	color:#fff;
+	font-family: 'ubuntu_monobold';
+	font-size:16px;
+}
+
+.menu .item-complex .item-content .backup,.menu .item-complex .item-content .restore {
+	background:#353535;
+}
+
+.menu .item-complex .item-content .backup:before {
+	position:absolute;
+	content:"\f102";
+	left:17px;
+	text-align:center;
+	font-size:24px;
+	color:#fac31b;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	-ms-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.menu .item-complex .item-content .restore:before {
+	position:absolute;
+	content:"\f201";
+	left:20px;
+	text-align:center;
+	font-size:24px;
+	color:#fac31b;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	-ms-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+/******* Home Screen *******/
+#home {
+	height:100%;
+}
+
+#home .screen-content {
+	height:60%;
+	background:url(../img/qr-bg.jpg) no-repeat;
+	background-position:center;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	background-size:cover;
+	-o-background-size:cover;
+}
+
+#home h2 {
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.25em;
+	font-size:17px;
+	line-height:1.4;
+	padding:70px 20px 0;
+}
+
+#home h2 span {
+	display:block;
+	color:#ffd307;
+}
+
+#home .screen-content img {
+	max-width:165px;
+	margin:auto;
+	position:relative;
+	margin-top:15px;
+}
+
+#home a.button {
+	-webkit-transform:translateX(-50%);
+	-ms-transform:translateX(-50%);
+	transform:translateX(-50%);
+	position:absolute;
+	bottom:20px;
+	left:50%;
+	padding:4px 26px;
+	background-color:#16b5dd;
+	text-transform:uppercase;
+	font-family:'LatoWebBold';
+	letter-spacing:.04em;
+	width:210px;
+}
+
+/******* Splash Screen *******/
+.splash .pane {
+	background:url(../img/header.jpg) no-repeat;
+	background-position:center;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	background-size:cover;
+	-o-background-size:cover;
+}
+
+.splash .screen-content {
+	-webkit-transform:translateY(-50%);
+	-ms-transform:translateY(-50%);
+	transform:translateY(-50%);
+	width:90%;
+	text-align:center;
+	position:absolute;
+	top:50%;
+	left:5%;
+}
+
+.splash .screen-content h1 {
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.5em;
+	font-size:22px;
+}
+
+.splash .screen-content h2 {
+	color:#ffd307;
+	font-family: 'ubuntu_monobold';
+	font-size:34px;
+	letter-spacing:-.06em;
+}
+
+/*********** Restore ************/
+.restore {
+	background:#353535;
+}
+
+.screen-container#restore {
+	background:#353535;
+	text-align:center;
+	padding:20px;
+}
+
+.restore i {
+	font-size:50px;
+	color:#fac31b;
+}
+
+.restore .screen-container h2 {
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.25em;
+	font-size:17px;
+	line-height:1.4;
+}
+
+.restore .button.button-positive {
+	border-color:transparent;
+	background-color:#16b5dd;
+	color:#fff;
+	text-transform:uppercase;
+	font-family:'LatoWebBold';
+	letter-spacing:.04em;
+	max-width:200px;
+	min-height:47px;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+.restore .item-input input,.restore .item-input textarea {
+	width:100%;
+	background:transparent;
+	border:2px solid #000;
+	border-radius:0;
+	-webkit-border-radius:0;
+	box-shadow:none;
+	min-height:47px;
+	padding: 8px;
+	color:#fff;
+}
+
+.restore .list {
+	margin-bottom:5px;
+}
+
+.restore label.item {
+	border-color:#ddd;
+	background-color:transparent;
+	color:#eee;
+	position:relative;
+	z-index:2;
+	display:block;
+	margin:-1px;
+	padding:0;
+	border-width:1px;
+	border-style:solid;
+	font-size:16px;
+	border:none;
+}
+
+.restore .input-label {
+	display:table;
+	padding:7px 10px 7px 0;
+	max-width:200px;
+	width:35%;
+	color:#ccc;
+	font-size:16px;
+	text-align:left;
+}
+
+/************ Backup *************/
+.backup {
+	background-color:#1f1f1f;
+}
+
+.screen-container#backup {
+	text-align:center;
+}
+
+.backup .screen-container-top {
+	background:#353535;
+	padding:20px;
+}
+
+.backup .screen-container-btm {
+	position:relative;
+	padding:20px;
+}
+
+.backup .screen-container-btm:before {
+	width:0;
+	height:0;
+	content:"";
+	border-left:16px solid transparent;
+	border-right:16px solid transparent;
+	border-top:16px solid #353535;
+	position:absolute;
+	top:0;
+	left:50%;
+	-webkit-transform:translateX(-50%);
+	-ms-transform:translateX(-50%);
+	transform:translateX(-50%);
+}
+
+.backup .screen-container-btm h3 {
+	color:#f9c31b;
+	font-family: 'ubuntu_monobold';
+	font-size:26px;
+	font-weight:600;
+	padding:15px 0;
+	line-height:30px;
+}
+
+.backup .screen-container-btm p.important {
+	position:relative;
+	padding-left:30px;
+	color:#fff;
+	font-family:'LatoWeb';
+	font-size:17px;
+	text-align:left;
+}
+
+.backup .screen-container-btm p.important:before {
+	position:absolute;
+	content:"";
+	left:0;
+	top:0;
+background: url(../img/important.png) no-repeat;
+width:20px;
+height: 19px;
+background-size: 100%;
+-webkit-background-size: 100%;
+}
+
+.backup i {
+	font-size:50px;
+	color:#fac31b;
+}
+
+.backup .screen-container h2 {
+	color:#fff;
+	font-family:'LatoWebBold';
+	text-transform:uppercase;
+	letter-spacing:.25em;
+	font-size:16px;
+	line-height:1.4;
+}
