@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, Mnemonic, Bitcoin */
+/* global angular, Mnemonic, bitcoin */
 
 angular.module('carbonkey.services')
 
@@ -30,12 +30,12 @@ angular.module('carbonkey.services')
   };
 
   service.toWIF = function(words) {
-    var hd = Bitcoin.HDNode.fromSeedHex(service.toSeed(words));
+    var hd = bitcoin.HDNode.fromSeedHex(service.toSeed(words));
     return hd.keyPair.toWIF();
   };
 
   service.toECKey = function(words) {
-    var hd = Bitcoin.HDNode.fromSeedHex(service.toSeed(words));
+    var hd = bitcoin.HDNode.fromSeedHex(service.toSeed(words));
     return hd.keyPair;
   };
 

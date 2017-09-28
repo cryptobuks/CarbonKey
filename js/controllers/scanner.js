@@ -11,7 +11,6 @@ function($scope, bip39, $location, addressParser,
   		$scope.initCanvas(800, 600);
   		qrcode.callback = $scope.read;
       $scope.setwebcam();
-  
   });
   
   // Called by the load() function.

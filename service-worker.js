@@ -1,5 +1,5 @@
 // Set a name for the current cache
-var cacheName = 'v1'; 
+var cacheName = 'v3'; 
 
 // Default files to always cache
 var cacheFiles = [
@@ -20,7 +20,7 @@ var cacheFiles = [
 	'./lib/ionic/js/ionic.bundle.js',
 	'./lib/ngCordova/dist/ng-cordova.js',
 	'./lib/ng-lodash/build/ng-lodash.js',
-	'./lib/bitcoinjs.min.js',
+	'./lib/bitcoinjs-lib.js',
 	'./lib/qr_code_stuff/llqrcode.js',
 	'./lib/sjcl-bip39.js',
 	'./lib/wordlist-english.js',

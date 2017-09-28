@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, Bitcoin */
+/* global angular, bitcoin */
 angular.module('carbonkey.services')
   .factory('onChainService', function(lodash, $http) {
     
@@ -124,9 +124,9 @@ angular.module('carbonkey.services')
 
     var _getHDWalletDeterministicKey = function() {
       
-      var keyPair = Bitcoin.ECPair.fromWIF(_wif);
+      var keyPair = bitcoin.ECPair.fromWIF(_wif);
       var phex = keyPair.d.toBuffer().toString('hex');
-      var hd = Bitcoin.HDNode.fromSeedHex(phex);
+      var hd = bitcoin.HDNode.fromSeedHex(phex);
       
       var derivedByArgument = hd.derive("m/0'");
       return derivedByArgument;
