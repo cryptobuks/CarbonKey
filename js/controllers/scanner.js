@@ -135,21 +135,25 @@ function($scope, bip39, $location, addressParser,
     });
     bitIDPopup.then(function(res) {
       
-      if(res != null && res == true) {
-        var msg = bitIDService.generateSignatureMessage(
-          window.localStorage.getItem("wif"));
+      try {
+        if(res != null && res == true) {
+          var msg = bitIDService.generateSignatureMessage(
+            window.localStorage.getItem("wif"));
+            
+          $ionicLoading.show({
+            template: 'Authenticating...'
+          });
           
-        $ionicLoading.show({
-          template: 'Authenticating...'
-        });
-        
-        bitIDService.postMessage(msg).then(function(resp) {
-          $ionicLoading.hide();
-          alert('Authentication successful');
-        }, function(err) {
-          $ionicLoading.hide();
-          alert('Authentication failed, try again. ' + err.status);
-        });
+          bitIDService.postMessage(msg).then(function(resp) {
+            $ionicLoading.hide();
+            alert('Authentication successful');
+          }, function(err) {
+            $ionicLoading.hide();
+            alert('Authentication failed, try again. ' + err.status);
+          });
+        }
+      } catch(e) {
+        alert(e)
       }
       return;
     });

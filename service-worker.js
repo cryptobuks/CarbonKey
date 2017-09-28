@@ -1,5 +1,5 @@
 // Set a name for the current cache
-var cacheName = 'v3'; 
+var cacheName = 'v1.02'; 
 
 // Default files to always cache
 var cacheFiles = [
@@ -26,6 +26,10 @@ var cacheFiles = [
 	'./lib/wordlist-english.js',
 	'./lib/jsbip39.js',
 	'./lib/ionic/css/ionic.css',
+	'./lib/ionic/fonts/ionicons.eot',
+	'./lib/ionic/fonts/ionicons.svg',
+	'./lib/ionic/fonts/ionicons.ttf',
+	'./lib/ionic/fonts/ionicons.woff',
 	'./css/style.css',
 	'./img/header.jpg',
 	'./img/important.png',

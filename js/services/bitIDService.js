@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, Bitcoin */
+/* global angular, bitcoin */
 angular.module('carbonkey.services')
   .factory('bitIDService', function($http) {
     var service = {};
@@ -66,17 +66,17 @@ angular.module('carbonkey.services')
 
     service.generateSignatureMessage = function(wif) {
       
-      var keyPair = Bitcoin.ECPair.fromWIF(wif);
+      var keyPair = bitcoin.ECPair.fromWIF(wif);
       var phex = keyPair.d.toBuffer().toString('hex')
-      var hd = Bitcoin.HDNode.fromSeedHex(phex);
+      var hd = bitcoin.HDNode.fromSeedHex(phex);
         
-      var sha256URL = Bitcoin.crypto.sha256(_getBitIDSiteURI());
+      var sha256URL = bitcoin.crypto.sha256(_getBitIDSiteURI());
       var sha32uri = sha256URL.readInt32LE(1);
       
-      var derived = hd.derive("m/0'/0xb11e'/"+sha32uri+"/0");
+      var derived = hd.derivePath("m/0'/0xb11e'/"+sha32uri+"/0");
       
       var message = _getMessageToSign();
-      var signedMessage = Bitcoin.message.sign(derived.keyPair, message);
+      var signedMessage = bitcoin.message.sign(derived.keyPair, message);
       var signed = signedMessage.toString('base64');
       var pubKeyAddress = derived.keyPair.getAddress();
       var fullMessage = _createMessage(signed, pubKeyAddress);
