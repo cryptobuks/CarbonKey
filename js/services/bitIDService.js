@@ -73,7 +73,7 @@ angular.module('carbonkey.services')
       var sha256URL = bitcoin.crypto.sha256(_getBitIDSiteURI());
       var sha32uri = sha256URL.readInt32LE(1);
       
-      var derived = hd.derivePath("m/0'/0xb11e'/"+sha32uri+"/0");
+      var derived = hd.derivePath("m/0'/45342'/"+sha32uri+"/0");
       
       var message = _getMessageToSign();
       var signedMessage = bitcoin.message.sign(derived.keyPair, message);
