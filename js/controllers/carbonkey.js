@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, Bitcoin */
+/* global angular */
 angular.module('carbonkey.controllers').controller("CarbonKeyController", 
   function($scope, $ionicSideMenuDelegate, $ionicLoading, bip39) {
   

@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, Mnemonic, bitcoin */
+/* global angular, Mnemonic, Bitcoin */
 
 angular.module('carbonkey.services')
 
@@ -9,8 +9,7 @@ angular.module('carbonkey.services')
 
   service.generateBip39 = function() {
     
-    var bip39 = new Mnemonic('english');
-    return bip39.generate();
+    return Bitcoin.Bip39.generateMnemonic()
   };
 
   service.isValid = function(words) {
@@ -18,24 +17,21 @@ angular.module('carbonkey.services')
     if(words == null)
       words = '';
       
-    var bip39 = new Mnemonic('english');
-    return bip39.check(words);
+    return Bitcoin.Bip39.validateMnemonic(words);
   };
 
   service.toSeed = function(words) {
     
-    var bip39 = new Mnemonic('english');
-    var seed = bip39.toSeed(words);
-    return seed;
+    return Bitcoin.Bip39.mnemonicToSeedHex(words);
   };
 
   service.toWIF = function(words) {
-    var hd = bitcoin.HDNode.fromSeedHex(service.toSeed(words));
+    var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(service.toSeed(words));
     return hd.keyPair.toWIF();
   };
 
   service.toECKey = function(words) {
-    var hd = bitcoin.HDNode.fromSeedHex(service.toSeed(words));
+    var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(service.toSeed(words));
     return hd.keyPair;
   };
 

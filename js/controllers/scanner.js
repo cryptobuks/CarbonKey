@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, qrcode, navigator, Bitcoin */
+/* global angular, qrcode, navigator */
 angular.module('carbonkey.controllers').controller('ScannerController', 
   
 function($scope, bip39, $location, addressParser,

@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, bitcoin */
+/* global angular, Bitcoin */
 angular.module('carbonkey.services')
   .factory('bitIDService', function($http) {
     var service = {};
@@ -66,18 +66,24 @@ angular.module('carbonkey.services')
 
     service.generateSignatureMessage = function(wif) {
       
-      var keyPair = bitcoin.ECPair.fromWIF(wif);
-      var phex = keyPair.d.toBuffer().toString('hex')
-      var hd = bitcoin.HDNode.fromSeedHex(phex);
+      var keyPair = Bitcoin.BitcoinJS.ECPair.fromWIF(wif);
+      var phex = keyPair.d.toBuffer().toString('hex');
+      var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(phex);
         
-      var sha256URL = bitcoin.crypto.sha256(_getBitIDSiteURI());
+      var sha256URL = Bitcoin.BitcoinJS.crypto.sha256(_getBitIDSiteURI());
       var sha32uri = sha256URL.readInt32LE(1);
       
       var derived = hd.derivePath("m/0'/45342'/"+sha32uri+"/0");
       
       var message = _getMessageToSign();
-      var signedMessage = bitcoin.message.sign(derived.keyPair, message);
+      
+      // Sign the message
+      var privateKey = keyPair.d.toBuffer(32);
+      var messagePrefix = Bitcoin.BitcoinJS.networks.bitcoin.messagePrefix;
+      var signedMessage = Bitcoin.Message.sign(message, messagePrefix, privateKey, keyPair.compressed);
       var signed = signedMessage.toString('base64');
+      
+      
       var pubKeyAddress = derived.keyPair.getAddress();
       var fullMessage = _createMessage(signed, pubKeyAddress);
       return fullMessage;
@@ -88,7 +94,7 @@ angular.module('carbonkey.services')
         uri: _getFullCallbackURI(),
         address: pubKey,
         signature: signature
-      }
+      };
       return message;
     };
 
