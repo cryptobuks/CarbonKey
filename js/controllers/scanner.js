@@ -7,11 +7,92 @@ function($scope, bip39, $location, addressParser,
     
   $scope.$on('$ionicView.enter', function() {
     
-      $scope.stype = 0;
-  		$scope.initCanvas(800, 600);
-  		qrcode.callback = $scope.read;
-      $scope.setwebcam();
+    // Normalize the various vendor prefixed versions of getUserMedia.
+    navigator.getUserMedia = (navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia || 
+                            navigator.msGetUserMedia);
+    
+    try {
+      
+      if (navigator.getUserMedia) {
+        // Request the camera.
+        navigator.getUserMedia(
+          // Constraints
+          {
+            video: {facingMode: "environment"}
+          },
+      
+          // Success Callback
+          function(localMediaStream) {
+            document.getElementById('about').style.display = 'none';
+            // Get a reference to the video element on the page.
+            var vid = document.getElementById('camera-stream');
+            
+            // Create an object URL for the video stream and use this 
+            // to set the video source.
+            vid.src = window.URL.createObjectURL(localMediaStream);
+            
+            $scope.player = vid;
+            $scope.localMediaStream = localMediaStream;
+            $scope.canvas = document.getElementById('qr-canvas');
+            $scope.context = $scope.canvas.getContext('2d');
+            qrcode.callback = $scope.processQRCode;
+            $scope.calculateSquare();
+            setTimeout($scope.captureToCanvas, 500);
+          },
+      
+          // Error Callback
+          function(err) {
+            // Log the error to the console.
+            console.log('The following error occurred when trying to use getUserMedia: ' + err);
+          }
+        );
+      
+      } else {
+        alert('Sorry, your browser does not support getUserMedia');
+      }
+    } catch(e) {
+      alert(e);
+    }
+    //$scope.stype = 0;
+		//$scope.initCanvas(800, 600);
+		//qrcode.callback = $scope.read;
+    //$scope.setwebcam();
   });
+  
+  $scope.calculateSquare = function() {
+      // get square of snapshot in the video
+      var overlay = document.getElementById('snapshotLimitOverlay');
+      var snapshotSize = overlay.offsetWidth;
+      var snapshotSquare = {
+          'x': ~~(($scope.player.videoWidth - snapshotSize)/2),
+          'y': ~~(($scope.player.videoHeight - snapshotSize)/2),
+          'size': ~~(snapshotSize)
+      };
+
+      $scope.canvas.width = snapshotSquare.size;
+      $scope.canvas.height = snapshotSquare.size;
+  };
+  
+  // Take a snap shot and try and scna for a qr code
+  $scope.captureToCanvas = function() {
+    try{
+        $scope.context.drawImage($scope.player, 0, 0, 
+          $scope.canvas.width, $scope.canvas.height);
+        try{
+            qrcode.decode();
+        }
+        catch(e){       
+            console.log(e);
+            setTimeout($scope.captureToCanvas, 500);
+        }
+    }
+    catch(e){       
+      console.log(e);
+      setTimeout($scope.captureToCanvas, 500);
+    }
+  };
   
   // Called by the load() function.
   $scope.processQRCode = function(data) {
@@ -149,7 +230,11 @@ function($scope, bip39, $location, addressParser,
             alert('Authentication successful');
           }, function(err) {
             $ionicLoading.hide();
-            alert('Authentication failed, try again. ' + err.status);
+            var message = '';
+            if(err && err.data && err.data.message) {
+              message = err.data.message
+            }
+            alert('Authentication failed, try again. ' + message);
           });
         }
       } catch(e) {
@@ -157,166 +242,6 @@ function($scope, bip39, $location, addressParser,
       }
       return;
     });
-  };
-  
-  /**
-   * Everything to do with scanning
-   * 
-   **/
-  
-  $scope.stype = 0;
-  $scope.v = null;
-  $scope.webkit=false;
-  $scope.moz=false;
-  $scope.gUM=false;
-  $scope.gCtx = null;
-  $scope.gCanvas = null;
-  
-  $scope.read = function(a)
-  {
-      $scope.stype = 0;
-      //$scope.stop();
-      $scope.processQRCode(a);
-  };
-	
-  $scope.isCanvasSupported = function() {
-    var elem = document.createElement('canvas');
-    return !!(elem.getContext && elem.getContext('2d'));
-  };
-  
-  $scope.initCanvas = function(w,h)
-  {
-      $scope.gCanvas = document.getElementById("qr-canvas");
-      $scope.gCanvas.style.width = w + "px";
-      $scope.gCanvas.style.height = h + "px";
-      $scope.gCanvas.width = w;
-      $scope.gCanvas.height = h;
-      $scope.gCtx = $scope.gCanvas.getContext("2d");
-      $scope.gCtx.clearRect(0, 0, w, h);
-  };
-  
-  $scope.setwebcam = function()
-  {
-  	
-  	var options = true;
-  	if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices)
-  	{
-  		try{
-  			navigator.mediaDevices.enumerateDevices()
-  			.then(function(devices) {
-  			  devices.forEach(function(device) {
-  				if (device.kind === 'videoinput') {
-  				  if(device.label.toLowerCase().search("back") >-1)
-  					options={'deviceId': {'exact':device.deviceId}, 'facingMode':'environment'} ;
-  				}
-  				console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
-  			  });
-  			  $scope.setwebcam2(options);
-  			});
-  		}
-  		catch(e)
-  		{
-  			console.log(e);
-  		}
-  	}
-  	else{
-  		console.log("no navigator.mediaDevices.enumerateDevices" );
-  		$scope.setwebcam2(options);
-  	}
-  };
-
-  $scope.setwebcam2 = function(options)
-  {
-  	console.log(options);
-  	
-    if($scope.stype==1)
-    {
-        setTimeout($scope.captureToCanvas, 500);    
-        return;
-    }
-    var n=navigator;
-    document.getElementById("outdiv").innerHTML = '<video id="v" autoplay></video>';
-    $scope.v = document.getElementById("v");
-
-
-    if(n.getUserMedia)
-  	{
-  		$scope.webkit=true;
-      n.getUserMedia({video: options, audio: false}, $scope.success, $scope.error);
-  	}
-    else
-    if(n.webkitGetUserMedia)
-    {
-      $scope.webkit=true;
-      n.webkitGetUserMedia({video:options, audio: false}, $scope.success, $scope.error);
-    }
-    else
-    if(n.mozGetUserMedia)
-    {
-      $scope.moz=true;
-      n.mozGetUserMedia({video: options, audio: false}, $scope.success, $scope.error);
-    }
-
-
-    $scope.stype=1;
-    setTimeout($scope.captureToCanvas, 500);
-  };
-  
-  
-  $scope.success = function(stream) {
-      if($scope.webkit)
-          $scope.v.src = window.URL.createObjectURL(stream);
-      else
-      if($scope.moz)
-      {
-          $scope.v.mozSrcObject = stream;
-          $scope.v.play();
-      }
-      else
-          $scope.v.src = stream;
-      $scope.gUM=true;
-      setTimeout($scope.captureToCanvas, 500);
-  };
-  
-  
-  $scope.stop = function() {
-    
-      if($scope.moz)
-      {
-          $scope.v.mozSrcObject.getTracks().forEach(function (track) { track.stop(); });
-      }
-      else
-      {
-          $scope.v.src.getTracks().forEach(function (track) { track.stop(); });
-      }
-  };
-  		
-  $scope.error = function(error) {
-      $scope.gUM=false;
-      return;
-  };
-  
-  
-  $scope.captureToCanvas = function() {
-    if($scope.stype!=1)
-        return;
-    if($scope.gUM)
-    {
-        try{
-            $scope.gCtx.drawImage($scope.v,0,0);
-            try{
-                qrcode.decode();
-            }
-            catch(e){       
-                console.log(e);
-                setTimeout($scope.captureToCanvas, 500);
-            }
-        }
-        catch(e){       
-                console.log(e);
-                setTimeout($scope.captureToCanvas, 500);
-        }
-    }
   };
   
 })
