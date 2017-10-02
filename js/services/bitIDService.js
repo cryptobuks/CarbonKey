@@ -78,9 +78,9 @@ angular.module('carbonkey.services')
       var message = _getMessageToSign();
       
       // Sign the message
-      var privateKey = keyPair.d.toBuffer(32);
+      var privateKey = derived.keyPair.d.toBuffer(32);
       var messagePrefix = Bitcoin.BitcoinJS.networks.bitcoin.messagePrefix;
-      var signedMessage = Bitcoin.Message.sign(message, messagePrefix, privateKey, keyPair.compressed);
+      var signedMessage = Bitcoin.Message.sign(message, messagePrefix, privateKey, derived.keyPair.compressed);
       var signed = signedMessage.toString('base64');
       
       
