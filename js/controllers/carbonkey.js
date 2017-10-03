@@ -25,7 +25,7 @@ angular.module('carbonkey.controllers').controller("CarbonKeyController",
 	
   $scope.$on('$ionicView.enter', function() {
     
-    if(window.localStorage.getItem("bip39") == null || window.localStorage.getItem("wif") == null) {
+  	if(window.localStorage.getItem("bip39") == null || window.localStorage.getItem("wif") == null) {
       initialise();
     }
     

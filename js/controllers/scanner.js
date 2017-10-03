@@ -8,7 +8,7 @@ function($scope, bip39, $location, addressParser,
   $scope.$on('$ionicView.enter', function() {
     
     // Start up the service workewr
-    $scope.qrcodeWorker = new Worker("js/qrcode_worker.js");
+    $scope.qrcodeWorker = new Worker("js/qrcode_worker.js?v=1");
     $scope.qrcodeWorker.postMessage({cmd: 'init'});
     $scope.qrcodeWorker.addEventListener('message', $scope.showResult);
     
@@ -64,13 +64,19 @@ function($scope, bip39, $location, addressParser,
   $scope.showResult = function(e) {
     var resultData = e.data;
      
-    if (resultData !== false) {
+    if (resultData.result !== false) {
       
       navigator.vibrate(200);
-      $scope.processQRCode(resultData)
+      $scope.processQRCode(resultData.result)
     
     } else {
       // if not found, retry
+    
+      if($scope.scans == null)
+        $scope.scans = 0;
+      $scope.scans = $scope.scans + 1;
+      document.getElementById('scans').innerHTML = resultData.error + ' ' + $scope.scans;
+      
       $scope.calculateSquare();
       $scope.scanCode();
     }

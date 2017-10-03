@@ -41,10 +41,11 @@ function process(input) {
     qrcode.height = input.height;
     qrcode.imagedata = input.imageData;
 
-    let result = false;
+    let result = { result: false, error: '' }
     try {
-        result = qrcode.process();
-    } catch (e) {  }
+        result.result = qrcode.process();
+        
+    } catch (e) { result.error = e }
 
     postMessage(result);
 }
