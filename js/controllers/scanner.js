@@ -65,7 +65,7 @@ function($scope, bip39, $location, addressParser,
     var resultData = e.data;
      
     if (resultData !== false) {
-          
+      
       navigator.vibrate(200);
       $scope.processQRCode(resultData)
     
