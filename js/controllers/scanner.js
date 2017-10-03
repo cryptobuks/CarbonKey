@@ -7,12 +7,17 @@ function($scope, bip39, $location, addressParser,
     
   $scope.$on('$ionicView.enter', function() {
     
+    // Start up the service workewr
+    $scope.qrcodeWorker = new Worker("js/qrcode_worker.js");
+    $scope.qrcodeWorker.postMessage({cmd: 'init'});
+    $scope.qrcodeWorker.addEventListener('message', $scope.showResult);
+    
     // Normalize the various vendor prefixed versions of getUserMedia.
     navigator.getUserMedia = (navigator.getUserMedia ||
                             navigator.webkitGetUserMedia ||
                             navigator.mozGetUserMedia || 
                             navigator.msGetUserMedia);
-    
+       
     try {
       
       if (navigator.getUserMedia) {
@@ -37,9 +42,8 @@ function($scope, bip39, $location, addressParser,
             $scope.localMediaStream = localMediaStream;
             $scope.canvas = document.getElementById('qr-canvas');
             $scope.context = $scope.canvas.getContext('2d');
-            qrcode.callback = $scope.processQRCode;
             $scope.calculateSquare();
-            setTimeout($scope.captureToCanvas, 500);
+            $scope.scanCode(true)
           },
       
           // Error Callback
@@ -55,43 +59,59 @@ function($scope, bip39, $location, addressParser,
     } catch(e) {
       alert(e);
     }
-    //$scope.stype = 0;
-		//$scope.initCanvas(800, 600);
-		//qrcode.callback = $scope.read;
-    //$scope.setwebcam();
   });
+  
+  $scope.showResult = function(e) {
+    var resultData = e.data;
+     
+    if (resultData !== false) {
+          
+      navigator.vibrate(200);
+      $scope.processQRCode(resultData)
+    
+    } else {
+      // if not found, retry
+      $scope.calculateSquare();
+      $scope.scanCode();
+    }
+  }
+  
+  $scope.scanCode = function(wasSuccess) {
+    
+    setTimeout(function() {
+      
+      // capture current snapshot
+      $scope.context.drawImage($scope.player, $scope.snapshotSquare.x, 
+        $scope.snapshotSquare.y, $scope.snapshotSquare.size, 
+        $scope.snapshotSquare.size, 0, 0, 
+        $scope.snapshotSquare.size, $scope.snapshotSquare.size);
+        
+      var imageData = $scope.context.getImageData(0, 0, 
+        $scope.snapshotSquare.size, $scope.snapshotSquare.size);
+  
+      // scan for QRCode
+      $scope.qrcodeWorker.postMessage({
+          cmd: 'process',
+          width: $scope.snapshotSquare.size,
+          height: $scope.snapshotSquare.size,
+          imageData: imageData
+      });
+      
+    }, wasSuccess ? 2000 : 500);
+  }
   
   $scope.calculateSquare = function() {
       // get square of snapshot in the video
       var overlay = document.getElementById('snapshotLimitOverlay');
       var snapshotSize = overlay.offsetWidth;
-      var snapshotSquare = {
+      $scope.snapshotSquare = {
           'x': ~~(($scope.player.videoWidth - snapshotSize)/2),
           'y': ~~(($scope.player.videoHeight - snapshotSize)/2),
           'size': ~~(snapshotSize)
       };
-
-      $scope.canvas.width = snapshotSquare.size;
-      $scope.canvas.height = snapshotSquare.size;
-  };
-  
-  // Take a snap shot and try and scna for a qr code
-  $scope.captureToCanvas = function() {
-    try{
-        $scope.context.drawImage($scope.player, 0, 0, 
-          $scope.canvas.width, $scope.canvas.height);
-        try{
-            qrcode.decode();
-        }
-        catch(e){       
-            console.log(e);
-            setTimeout($scope.captureToCanvas, 500);
-        }
-    }
-    catch(e){       
-      console.log(e);
-      setTimeout($scope.captureToCanvas, 500);
-    }
+      
+      $scope.canvas.width = $scope.snapshotSquare.size;
+      $scope.canvas.height = $scope.snapshotSquare.size;
   };
   
   // Called by the load() function.
@@ -100,6 +120,8 @@ function($scope, bip39, $location, addressParser,
       $scope.processBITID(data);
     } else if(addressParser.isOnChain(data) === true) {
       $scope.processONCHAIN(data);
+    } else {
+      alert(data)
     }
     
     $location.path('/home');
