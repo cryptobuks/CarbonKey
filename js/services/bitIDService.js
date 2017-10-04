@@ -112,5 +112,29 @@ angular.module('carbonkey.services')
       return $http(req);
     };
 
+    service.authorize = function(wif, success, failure) {
+      
+      const msg = service.generateSignatureMessage(wif);
+      
+      console.log(msg);
+      
+      window.fetch(_getCallBackURL(), {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(msg)
+      }).then(function(response) {
+        return response.json();
+      }).then(function(json) {
+        if(json.message != null)
+          throw('Error ' + json.message);
+          
+        return json
+      }).then(success).catch(failure);
+      
+    };
+
     return service;
   });

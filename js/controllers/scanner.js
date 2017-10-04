@@ -1,5 +1,5 @@
 'use strict';
-/* global angular, qrcode, navigator */
+/* global angular, navigator */
 angular.module('carbonkey.controllers').controller('ScannerController', 
   
 function($scope, bip39, $location, addressParser,
@@ -43,7 +43,7 @@ function($scope, bip39, $location, addressParser,
             $scope.canvas = document.getElementById('qr-canvas');
             $scope.context = $scope.canvas.getContext('2d');
             $scope.calculateSquare();
-            $scope.scanCode(true)
+            $scope.scanCode(true);
           },
       
           // Error Callback
@@ -61,13 +61,22 @@ function($scope, bip39, $location, addressParser,
     }
   });
   
+  $scope.toast = function(text) {
+    
+    $ionicLoading.show({
+      template: text
+    });
+    setTimeout(function(){ $ionicLoading.hide(); }, 3000);
+      
+  };
+  
   $scope.showResult = function(e) {
     var resultData = e.data;
      
     if (resultData.result !== false) {
       
       navigator.vibrate(200);
-      $scope.processQRCode(resultData.result)
+      $scope.processQRCode(resultData.result);
     
     } else {
       // if not found, retry
@@ -80,7 +89,7 @@ function($scope, bip39, $location, addressParser,
       $scope.calculateSquare();
       $scope.scanCode();
     }
-  }
+  };
   
   $scope.scanCode = function(wasSuccess) {
     
@@ -104,7 +113,7 @@ function($scope, bip39, $location, addressParser,
       });
       
     }, wasSuccess ? 2000 : 500);
-  }
+  };
   
   $scope.calculateSquare = function() {
       // get square of snapshot in the video
@@ -127,7 +136,7 @@ function($scope, bip39, $location, addressParser,
     } else if(addressParser.isOnChain(data) === true) {
       $scope.processONCHAIN(data);
     } else {
-      alert(data)
+      $scope.toast(data);
     }
     
     $location.path('/home');
@@ -158,11 +167,9 @@ function($scope, bip39, $location, addressParser,
           });
           var req = onChainService.processMPK();
           req.then(function(data, status, headers, config) {
-            alert('Extended Public Key shared');
-            $ionicLoading.hide();
+            $scope.toast('Extended Public Key shared');
           }, function(data, status, headers, config) {
-            alert('Error sharing Extended Public Key');
-            $ionicLoading.hide();
+            $scope.toast('Error sharing Extended Public Key');
           });
         }
       });
@@ -198,20 +205,18 @@ function($scope, bip39, $location, addressParser,
             var sigList = onChainService.signTransaction(data.data);
             var postReq = onChainService.postSignedRequest(sigList);
             postReq.then(function(pData, pStatus, pHeaders, pConfig) {
-              alert('Transaction signed');
+              $scope.toast('Transaction signed');
               $ionicLoading.hide();
             }, function(pData, pStatus, pHeaders, pConfig) {
               var message = pData.message || '';
-              alert('Error sending signatures. '+message);
+              $scope.toast('Error sending signatures. '+message);
               $ionicLoading.hide();
             });
           } catch (err) {
-            alert(err);
-            $ionicLoading.hide();
+            $scope.toast(err);
           }
         }, function(data, status, headers, config) {
-          alert('Error getting transaction');
-          $ionicLoading.hide();
+          $scope.toast('Error getting transaction');
         });
       }
     });
@@ -221,55 +226,45 @@ function($scope, bip39, $location, addressParser,
    * BITID is a protocol for authentication.
    * https://github.com/bitid/bitid
    */
-  $scope.processBITID = function(data) {
+  $scope.processBITID = function(bitid_qr_code) {
     
-    bitIDService.setAddress(data);
+    console.log(bitid_qr_code);
     
+    bitIDService.setAddress(bitid_qr_code);
     $scope.site = bitIDService.getSiteAddress();
     
-    var bitIDPopup = $ionicPopup.show({
-      template: '<p>Do you want to sign in?</p>',
-      title: $scope.site + ' is requesting that you identify yourself',
-      scope: $scope,
-      buttons: [
-        { text: 'No' },
-        {
-          text: '<b>Yes</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-            return true;
-          }
-        }
-      ]
-    });
-    bitIDPopup.then(function(res) {
+    const r = confirm($scope.site + " is requesting that you identify yourself"
+    + " Do you want to sign in?");
+    if (r == true) {
       
       try {
-        if(res != null && res == true) {
-          var msg = bitIDService.generateSignatureMessage(
-            window.localStorage.getItem("wif"));
             
-          $ionicLoading.show({
-            template: 'Authenticating...'
-          });
+        $ionicLoading.show({
+          template: 'Authenticating...'
+        });
+        
+        const success = function(data) {
+          $ionicLoading.hide();
+          alert('Authentication successful');
+        };
+        
+        const failure = function(error) {
+            
+          $ionicLoading.hide();
           
-          bitIDService.postMessage(msg).then(function(resp) {
-            $ionicLoading.hide();
-            alert('Authentication successful');
-          }, function(err) {
-            $ionicLoading.hide();
-            var message = '';
-            if(err && err.data && err.data.message) {
-              message = err.data.message
-            }
-            alert('Authentication failed, try again. ' + message);
-          });
-        }
+          let msg = error;
+          if(error.message)
+            msg = error.message;
+          $scope.toast('Authentication failed, try again. ' + msg);
+        };
+        
+        bitIDService.authorize(window.localStorage.getItem("wif"), 
+          success, failure);
+          
       } catch(e) {
-        alert(e)
+        $scope.toast(e);
       }
-      return;
-    });
+    }
   };
   
 })
