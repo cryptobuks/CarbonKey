@@ -61,6 +61,13 @@ function($scope, bip39, $location, addressParser,
     }
   });
   
+  $scope.$on('$ionicView.beforeLeave', function(){
+    console.log('Switching off camera.');
+    $scope.player.pause();
+    $scope.player.src = "";
+    $scope.localMediaStream.getTracks()[0].stop();
+  });
+  
   $scope.toast = function(text) {
     
     $ionicLoading.show({

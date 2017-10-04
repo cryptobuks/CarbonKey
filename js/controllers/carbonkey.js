@@ -1,7 +1,7 @@
 'use strict';
 /* global angular */
 angular.module('carbonkey.controllers').controller("CarbonKeyController", 
-  function($scope, $ionicSideMenuDelegate, $ionicLoading, bip39, bitIDService) {
+  function($scope, $ionicSideMenuDelegate, $ionicLoading, bip39) {
   
   // Called if no private key is set so far.  
   function initialise() {
