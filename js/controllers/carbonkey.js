@@ -37,6 +37,8 @@ angular.module('carbonkey.controllers').controller("CarbonKeyController",
       $scope.public_key = new bip39.toECKey(window.localStorage.getItem("bip39")).getAddress();
       $scope.mnemonic = window.localStorage.getItem("bip39");
     }
+    
+    document.cookie = "c9.live.user.click-through=ok"
           
   });
   
