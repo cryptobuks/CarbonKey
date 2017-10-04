@@ -233,38 +233,41 @@ function($scope, bip39, $location, addressParser,
     bitIDService.setAddress(bitid_qr_code);
     $scope.site = bitIDService.getSiteAddress();
     
-    const r = confirm($scope.site + " is requesting that you identify yourself"
-    + " Do you want to sign in?");
-    if (r == true) {
-      
-      try {
-            
-        $ionicLoading.show({
-          template: 'Authenticating...'
-        });
-        
-        const success = function(data) {
-          $ionicLoading.hide();
-          alert('Authentication successful');
-        };
-        
-        const failure = function(error) {
-            
-          $ionicLoading.hide();
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Do you want to sign in?',
+      template: $scope.site + " is requesting that you identify yourself"
+    });
+    
+    confirmPopup.then(function(res) {
+      if(res) {
+        try {
+              
+          $ionicLoading.show({
+            template: 'Authenticating...'
+          });
           
-          let msg = error;
-          if(error.message)
-            msg = error.message;
-          $scope.toast('Authentication failed, try again. ' + msg);
-        };
-        
-        bitIDService.authorize(window.localStorage.getItem("wif"), 
-          success, failure);
+          const success = function(data) {
+            $scope.toast('Authentication successful');
+          };
           
-      } catch(e) {
-        $scope.toast(e);
+          const failure = function(error) {
+              
+            $ionicLoading.hide();
+            
+            let msg = error;
+            if(error.message)
+              msg = error.message;
+            $scope.toast('Authentication failed, try again. ' + msg);
+          };
+          
+          bitIDService.authorize(window.localStorage.getItem("wif"), 
+            success, failure);
+            
+        } catch(e) {
+          $scope.toast(e);
+        }
       }
-    }
+    });
   };
   
 })
