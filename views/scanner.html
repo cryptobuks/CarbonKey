@@ -1,17 +1,18 @@
 <ion-view title="Scan QR Code">
   <ion-content class="backup">
-  <div id="backup" class="screen-container">
-  <video id="camera-stream" autoplay></video>
-  
-   <div id="snapshotLimitOverlay">
-    <div id="about">
-      <h4>QR Code Scanner</h4>
-      <p>
-          Attempting to initialise camera<br />
-      </p>
+    <div id="backup">
+      <p id="scans">Waiting to scan...</p>
+      <video id="camera-stream" autoplay></video>
+
+      <div id="snapshotLimitOverlay">
+        <div id="about">
+          <h4>QR Code Scanner</h4>
+          <p>
+            Attempting to initialise camera<br />
+          </p>
+        </div>
+      </div>
+      <canvas id="qr-canvas" width=800 height=600></canvas>
     </div>
-    </div>
-    <p id="scans">Scans</p>
-    <canvas id="qr-canvas" width=800 height=600></canvas>
   </ion-content>
 </ion-view>

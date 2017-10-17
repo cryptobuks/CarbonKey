@@ -42,7 +42,6 @@ function($scope, bip39, $location, addressParser,
             $scope.localMediaStream = localMediaStream;
             $scope.canvas = document.getElementById('qr-canvas');
             $scope.context = $scope.canvas.getContext('2d');
-            $scope.calculateSquare();
             $scope.scanCode(true);
           },
       
@@ -93,7 +92,6 @@ function($scope, bip39, $location, addressParser,
       $scope.scans = $scope.scans + 1;
       document.getElementById('scans').innerHTML = resultData.error + ' ' + $scope.scans;
       
-      $scope.calculateSquare();
       $scope.scanCode();
     }
   };
@@ -102,38 +100,26 @@ function($scope, bip39, $location, addressParser,
     
     setTimeout(function() {
       
+      var width = $scope.player.videoWidth;
+      var height =$scope.player.videoHeight;
+      
+      $scope.canvas.width = width;
+      $scope.canvas.height = height;
+      
       // capture current snapshot
-      $scope.context.drawImage($scope.player, $scope.snapshotSquare.x, 
-        $scope.snapshotSquare.y, $scope.snapshotSquare.size, 
-        $scope.snapshotSquare.size, 0, 0, 
-        $scope.snapshotSquare.size, $scope.snapshotSquare.size);
+      $scope.context.drawImage($scope.player, 0, 0, width, height);
         
-      var imageData = $scope.context.getImageData(0, 0, 
-        $scope.snapshotSquare.size, $scope.snapshotSquare.size);
+      var imageData = $scope.context.getImageData(0, 0, width, height);
   
       // scan for QRCode
       $scope.qrcodeWorker.postMessage({
           cmd: 'process',
-          width: $scope.snapshotSquare.size,
-          height: $scope.snapshotSquare.size,
+          width: width,
+          height: height,
           imageData: imageData
       });
       
     }, wasSuccess ? 2000 : 500);
-  };
-  
-  $scope.calculateSquare = function() {
-      // get square of snapshot in the video
-      var overlay = document.getElementById('snapshotLimitOverlay');
-      var snapshotSize = overlay.offsetWidth;
-      $scope.snapshotSquare = {
-          'x': ~~(($scope.player.videoWidth - snapshotSize)/2),
-          'y': ~~(($scope.player.videoHeight - snapshotSize)/2),
-          'size': ~~(snapshotSize)
-      };
-      
-      $scope.canvas.width = $scope.snapshotSquare.size;
-      $scope.canvas.height = $scope.snapshotSquare.size;
   };
   
   // Called by the load() function.
