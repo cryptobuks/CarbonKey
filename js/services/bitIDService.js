@@ -136,7 +136,11 @@ angular.module('carbonkey.services')
           throw('Error ' + json.message);
           
         return json
-      }).then(success).catch(failure);
+      }).then(function(json) {
+        success(json);
+      }).catch(function(error) {
+        failure(error);
+      });
       
     };
 
