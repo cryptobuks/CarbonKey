@@ -20,37 +20,42 @@ function($scope, bip39, $location, addressParser,
        
     try {
       
-      if (navigator.getUserMedia) {
+      if (navigator.mediaDevices.getUserMedia) {
         // Request the camera.
-        navigator.getUserMedia(
-          // Constraints
-          {
-            video: {facingMode: "environment"}
-          },
-      
-          // Success Callback
-          function(localMediaStream) {
-            document.getElementById('about').style.display = 'none';
-            // Get a reference to the video element on the page.
-            var vid = document.getElementById('camera-stream');
-            
-            // Create an object URL for the video stream and use this 
-            // to set the video source.
-            vid.src = window.URL.createObjectURL(localMediaStream);
-            
-            $scope.player = vid;
-            $scope.localMediaStream = localMediaStream;
-            $scope.canvas = document.getElementById('qr-canvas');
-            $scope.context = $scope.canvas.getContext('2d');
-            $scope.scanCode(true);
-          },
-      
-          // Error Callback
-          function(err) {
-            // Log the error to the console.
-            console.log('The following error occurred when trying to use getUserMedia: ' + err);
-          }
-        );
+        navigator.mediaDevices.enumerateDevices()
+  			.then(function (devices) {
+  				var device = devices.filter(function(device) {
+  					if (device.kind == "videoinput") {
+  						return device;
+  					}
+  				});
+  
+  				if (device.length > 1) {
+  					var constraints = {
+  						video: {
+  							mandatory: {
+  								sourceId: device[1].deviceId ? device[1].deviceId : null
+  							}
+  						},
+  						audio: false
+  					};
+            $scope.startCapture(constraints);
+  				}
+  				else if (device.length) {
+  					constraints = {
+  						video: {
+  							mandatory: {
+  								sourceId: device[0].deviceId ? device[0].deviceId : null
+  							}
+  						},
+  						audio: false
+  					};
+            $scope.startCapture(constraints);
+  				}
+  			})
+  			.catch(function (error) {
+  				alert("Error occurred : ", error);
+  			});
       
       } else {
         alert('Sorry, your browser does not support getUserMedia');
@@ -59,6 +64,34 @@ function($scope, bip39, $location, addressParser,
       alert(e);
     }
   });
+  
+  $scope.startCapture = function(constraints) {
+    navigator.getUserMedia(constraints,
+  
+      // Success Callback
+      function(localMediaStream) {
+        document.getElementById('about').style.display = 'none';
+        // Get a reference to the video element on the page.
+        var vid = document.getElementById('camera-stream');
+        
+        // Create an object URL for the video stream and use this 
+        // to set the video source.
+        vid.src = window.URL.createObjectURL(localMediaStream);
+        
+        $scope.player = vid;
+        $scope.localMediaStream = localMediaStream;
+        $scope.canvas = document.getElementById('qr-canvas');
+        $scope.context = $scope.canvas.getContext('2d');
+        $scope.scanCode(true);
+      },
+  
+      // Error Callback
+      function(err) {
+        // Log the error to the console.
+        console.log('The following error occurred when trying to use getUserMedia: ' + err);
+      }
+    );
+  }
   
   $scope.$on('$ionicView.beforeLeave', function(){
     console.log('Switching off camera.');
