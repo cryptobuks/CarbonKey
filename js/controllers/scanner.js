@@ -221,8 +221,8 @@ function($scope, bip39, $location, addressParser,
         });
         
         var txReq = onChainService.getTransaction();
-        txReq.then(function(data, status, headers, config) {
-          
+        
+        var success = function(data, status, headers, config) {
           $ionicLoading.show({
             template: 'Sending Signatures'
           });
@@ -241,9 +241,14 @@ function($scope, bip39, $location, addressParser,
           } catch (err) {
             $scope.toast(err);
           }
-        }, function(data, status, headers, config) {
+        }
+        
+        var failure = function(data, status, headers, config) {
           $scope.toast('Error getting transaction ' + status + ' ' + data);
-        });
+        }
+        
+        // We get failure I don't know why. Just process it anyway.
+        txReq.then(success, success);
       }
     });
   };
