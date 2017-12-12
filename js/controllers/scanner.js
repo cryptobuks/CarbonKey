@@ -244,7 +244,7 @@ function($scope, bip39, $location, addressParser,
         }
         
         var failure = function(data, status, headers, config) {
-          $scope.toast('Error getting transaction ' + status + ' ' + data);
+          $scope.toast('Error getting transaction ' + status + ' ' + data.data);
         }
         
         // We get failure I don't know why. Just process it anyway.
