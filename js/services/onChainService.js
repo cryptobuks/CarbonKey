@@ -59,6 +59,7 @@ angular.module('carbonkey.services')
         transformResponse: undefined,
         params: reqParams,
         method: 'GET',
+        responseType: 'text',
         url: callbackURL
       };
     };
