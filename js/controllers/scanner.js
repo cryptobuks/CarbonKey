@@ -242,7 +242,7 @@ function($scope, bip39, $location, addressParser,
             $scope.toast(err);
           }
         }, function(data, status, headers, config) {
-          $scope.toast('Error getting transaction');
+          $scope.toast('Error getting transaction ' + status + ' ' + data);
         });
       }
     });
