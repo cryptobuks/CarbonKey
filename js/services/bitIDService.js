@@ -98,20 +98,6 @@ angular.module('carbonkey.services')
       return message;
     };
 
-    service.postMessage = function(message) {
-      var callbackURL = _getCallBackURL();
-      var req = {
-          method: 'POST',
-          url: callbackURL,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: message
-      };
-
-      return $http(req);
-    };
-
     service.authorize = function(wif, success, failure) {
       
       const msg = service.generateSignatureMessage(wif);

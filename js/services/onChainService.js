@@ -109,12 +109,18 @@ angular.module('carbonkey.services')
         
         if(sig_list[x][address] != null) {
           var hash = sig_list[x][address]['hash'];
-          var signed_hash = key.sign_hex_hash(hash).toDER().toString("hex");
+          
+          var hash_buff = Bitcoin.Buffer.from(hash, 'hex');
+          
+          var signed_hash = key.sign(hash_buff).toDER().toString("hex");
           
           sig_list[x][address]['sig'] = signed_hash;
         } else if(sig_list[x][full_address] != null) {
           var hash = sig_list[x][full_address]['hash'];
-          var signed_hash = key.sign_hex_hash(hash).toDER().toString("hex");
+          
+          var hash_buff = Bitcoin.Buffer.from(hash, 'hex');
+          
+          var signed_hash = key.sign(hash_buff).toDER().toString("hex");
           
           sig_list[x][full_address]['sig'] = signed_hash;
         }
