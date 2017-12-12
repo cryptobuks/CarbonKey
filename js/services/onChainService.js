@@ -56,7 +56,6 @@ angular.module('carbonkey.services')
       var reqParams = _getExtraParams(_address.split("|"));
       var callbackURL = service.getParsed().post_back;
       return {
-        transformResponse: undefined,
         params: reqParams,
         method: 'GET',
         responseType: 'text',
