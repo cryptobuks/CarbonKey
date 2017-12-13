@@ -138,9 +138,27 @@ angular.module('carbonkey.services')
       return derivedByArgument;
     };
 
-    service.buildRequestMPKObject = function(mpk) {
+    var _generateBITIDAddress = function(wif, site_uri) {
+      
+      var keyPair = Bitcoin.BitcoinJS.ECPair.fromWIF(wif);
+      var phex = keyPair.d.toBuffer().toString('hex');
+      var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(phex);
+        
+      var sha256URL = Bitcoin.BitcoinJS.crypto.sha256(site_uri);
+      var sha32uri = sha256URL.readInt32LE(1);
+      
+      var derived = hd.derivePath("m/0'/45342'/"+sha32uri+"/0");
+      
+      
+      
+      var pubKeyAddress = derived.keyPair.getAddress();
+      return pubKeyAddress;
+    };
+
+    service.buildRequestMPKObject = function(mpk, site_uri) {
       var result = lodash.omit(service.getParsed(), ['cmd', 'service', 'post_back']);
       result['mpk'] = mpk;
+      result['bitid'] = _generateBITIDAddress(_wif, site_uri);
       return result;
     };
 
@@ -151,8 +169,8 @@ angular.module('carbonkey.services')
 
     service.processMPK = function() {
       var xpubB58 = _getDerivedXpub58();
-      var reqObj = service.buildRequestMPKObject(xpubB58);
       var callbackURL = service.getParsed().post_back;
+      var reqObj = service.buildRequestMPKObject(xpubB58, callbackURL);
       var req = {
           method: 'POST',
           url: callbackURL,
