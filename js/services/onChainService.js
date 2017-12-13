@@ -158,7 +158,7 @@ angular.module('carbonkey.services')
     service.buildRequestMPKObject = function(mpk, site_uri) {
       var result = lodash.omit(service.getParsed(), ['cmd', 'service', 'post_back']);
       result['mpk'] = mpk;
-      result['bitid'] = _generateBITIDAddress(_wif, site_uri);
+      result['bitid_address'] = _generateBITIDAddress(_wif, site_uri);
       return result;
     };
 
