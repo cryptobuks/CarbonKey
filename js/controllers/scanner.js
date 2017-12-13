@@ -182,20 +182,20 @@ function($scope, bip39, $location, addressParser,
       var serviceUrl = onChainService.getParsed().service;
       
       var confirmPopup = $ionicPopup.confirm({
-        title: 'Share Public Key',
-        template: 'Share a public key with '+serviceUrl+'?'
+        title: 'Tether',
+        template: 'Tether CarbonKey with '+serviceUrl+'?'
       });
       
       confirmPopup.then(function(res) {
         if(res) {
           $ionicLoading.show({
-            template: 'Sharing Extended Public Key with ' + serviceUrl
+            template: 'Tethering with ' + serviceUrl
           });
           var req = onChainService.processMPK();
           req.then(function(data, status, headers, config) {
-            $scope.toast('Extended Public Key shared');
+            $scope.toast('Success with tethering');
           }, function(data, status, headers, config) {
-            $scope.toast('Error sharing Extended Public Key');
+            $scope.toast('Error with tethering');
           });
         }
       });
@@ -210,7 +210,7 @@ function($scope, bip39, $location, addressParser,
     var serviceUrl = onChainService.getParsed().service;
     
     var confirmPopup = $ionicPopup.confirm({
-      title: 'Share a Transaction',
+      title: 'Sign a Transaction',
       template: 'Sign the transaction with ' + serviceUrl + '?'
     });
     
