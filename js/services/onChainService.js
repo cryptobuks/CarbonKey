@@ -170,7 +170,8 @@ angular.module('carbonkey.services')
     service.processMPK = function() {
       var xpubB58 = _getDerivedXpub58();
       var callbackURL = service.getParsed().post_back;
-      var reqObj = service.buildRequestMPKObject(xpubB58, callbackURL);
+      var bitidURI = service.getParsed().bitid;
+      var reqObj = service.buildRequestMPKObject(xpubB58, bitidURI);
       var req = {
           method: 'POST',
           url: callbackURL,
