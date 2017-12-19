@@ -3,7 +3,6 @@ var cacheName = 'v1.14';
 
 // Default files to always cache
 var cacheFiles = [
-	'./',
 	'./index.html',
 	'./js/app.js',
 	'./js/routes.js',
