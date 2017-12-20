@@ -176,6 +176,7 @@ function($scope, bip39, $location, addressParser,
     
     onChainService.setAddress(data);
     onChainService.setWIF(window.localStorage.getItem("wif"));
+    var bitid_uri = onChainService.getParsed().bitid
     
     if(onChainService.getParsed().cmd == 'mpk') {
       
@@ -183,7 +184,7 @@ function($scope, bip39, $location, addressParser,
       
       var confirmPopup = $ionicPopup.confirm({
         title: 'Tether',
-        template: 'Tether CarbonKey with '+serviceUrl+'?'
+        template: 'Tether CarbonKey with '+bitid_uri+'?'
       });
       
       confirmPopup.then(function(res) {
