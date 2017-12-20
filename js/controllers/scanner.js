@@ -263,11 +263,12 @@ function($scope, bip39, $location, addressParser,
     console.log(bitid_qr_code);
     
     bitIDService.setAddress(bitid_qr_code);
+    var uri = bitIDService._getBitIDSiteURI()
     $scope.site = bitIDService.getSiteAddress();
     
     var confirmPopup = $ionicPopup.confirm({
       title: 'Do you want to sign in?',
-      template: $scope.site + " is requesting that you identify yourself"
+      template: uri + " is requesting that you identify yourself"
     });
     
     confirmPopup.then(function(res) {
