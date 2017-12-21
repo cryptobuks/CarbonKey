@@ -263,7 +263,7 @@ function($scope, bip39, $location, addressParser,
     console.log(bitid_qr_code);
     
     bitIDService.setAddress(bitid_qr_code);
-    var uri = bitIDService._getBitIDSiteURI()
+    var uri = bitIDService.getBitIDSiteURI();
     $scope.site = bitIDService.getSiteAddress();
     
     var confirmPopup = $ionicPopup.confirm({
