@@ -70,7 +70,7 @@ angular.module('carbonkey.services')
       var phex = keyPair.d.toBuffer().toString('hex');
       var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(phex);
         
-      var sha256URL = Bitcoin.BitcoinJS.crypto.sha256(getBitIDSiteURI());
+      var sha256URL = Bitcoin.BitcoinJS.crypto.sha256(service.getBitIDSiteURI());
       var sha32uri = sha256URL.readInt32LE(1);
       
       var derived = hd.derivePath("m/0'/45342'/"+sha32uri+"/0");

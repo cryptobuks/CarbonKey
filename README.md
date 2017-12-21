@@ -11,5 +11,17 @@ CarbonKey is used in conjuction with Carbon Wallet https://carbonwallet.com to c
 </tr>
 </table>
 
+# Debugging
+
+From the browser console the following are useful.
+
+injector = angular.element(document.body).injector()
+
+onchain = injector.get('onChainService')
+
+bitid = injector.get('bitIDService')
+
+You can then call the various methods on the services.
+
 
 
