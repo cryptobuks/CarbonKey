@@ -23,5 +23,12 @@ bitid = injector.get('bitIDService')
 
 You can then call the various methods on the services.
 
+Test BIT ID
+
+var succ = function(data) { alert('Success ' + data) };
+var fail = function(data) { alert(data) };
+uri = 'bitid://carbonwallet.com/bitid_callback?x=9c70553e8d982e22'
+bitid.setAddress(uri)
+bitid.authorize(window.localStorage.getItem("wif"), succ, fail);
 
 
