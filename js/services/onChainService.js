@@ -134,7 +134,7 @@ angular.module('carbonkey.services')
       var phex = keyPair.d.toBuffer().toString('hex');
       var hd = Bitcoin.BitcoinJS.HDNode.fromSeedHex(phex);
       
-      var derivedByArgument = hd.derivePath("m/0'");
+      var derivedByArgument = hd.derivePath("m/0");
       return derivedByArgument;
     };
 

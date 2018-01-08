@@ -1,5 +1,5 @@
 // Set a name for the current cache
-var cacheName = 'v1.20'; 
+var cacheName = 'v1.21'; 
 
 // Default files to always cache
 var cacheFiles = [
@@ -16,6 +16,7 @@ var cacheFiles = [
 	'./js/services/bitIDService.js',
 	'./js/services/isDevice.js',
 	'./js/services/onChainService.js',
+	'./lib/bitcoinjs-lib.js',
 	'./lib/ionic/js/ionic.bundle.js',
 	'./lib/ngCordova/dist/ng-cordova.js',
 	'./lib/ng-lodash/build/ng-lodash.js',
